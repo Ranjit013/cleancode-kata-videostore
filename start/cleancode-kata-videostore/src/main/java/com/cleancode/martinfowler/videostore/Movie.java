@@ -1,29 +1,46 @@
 package com.cleancode.martinfowler.videostore;
 
+import static com.cleancode.martinfowler.videostore.MovieType.NEW_RELEASE;
+
 public class Movie
 {
-	public static final int CHILDRENS	= 2;
-	public static final int REGULAR 	= 0;
-	public static final int NEW_RELEASE = 1;
-	
-	private String title;
-	private int priceCode;
-	
-	public Movie (String title, int priceCode) {
+	private final String title;
+	private final MovieType movieType;
+
+	Movie(String title, MovieType movieType) {
 		this.title 		= title;
-		this.priceCode 	= priceCode;
+		this.movieType = movieType;
 	}
-	
-	public int getPriceCode () {
-		return priceCode;
+
+	public static Movie createMovie(String title, MovieType movieType) {
+		switch (movieType) {
+			case REGULAR:
+				return new RegularMovie(title);
+			case NEW_RELEASE:
+				return new NewReleaseMovie(title);
+			case CHILDRENS:
+				return new ChildrenMovie(title);
+			default:
+				return new Movie(title, movieType);
+		}
+
 	}
-	
-	public void setPriceCode (int code) {
-		priceCode = code;
-	}
-	
+
 	public String getTitle () {
 		return title;
 	}
-	
+
+
+	 double calculatePrice(int daysRented) {
+		 return 0;
+	}
+
+	int getFrequentRenterPoints(int daysRented) {
+		int frequentRenterPoints = 0;
+		frequentRenterPoints++;
+		if (movieType == NEW_RELEASE && daysRented > 1) {
+			frequentRenterPoints++;
+		}
+		return frequentRenterPoints;
+	}
 }
